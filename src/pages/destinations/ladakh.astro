@@ -1,0 +1,184 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPosts } from '../../data/posts.js';
+
+const posts = getPosts().filter((p) => p.tags.includes('ladakh')).slice(0, 3);
+
+const facts = [
+  ['Area', 'approx. 59,000 km²'],
+  ['Capital', 'Leh (3,500 m)'],
+  ['Population', 'approx. 270,000'],
+  ['Religions', '40% Tibetan Buddhist (66% in Leh district), 45% Muslim (77% in Kargil district), 15% other – mainly Hindu, some Sikh, Jain and Christian'],
+  ['Best time to visit', 'May – October · for trekking June – September'],
+  ['Climate', 'The only region of India untouched by the monsoon – dry, with little rain. Summer daytime temperatures can exceed 30 °C.'],
+];
+
+const activities = [
+  ['Trekking', 'Easy village walks to remote, strenuous high-altitude routes – something for every level.'],
+  ['Expeditions', '6,000-metre peaks with experienced climbing guides from our own team.'],
+  ['Cycling', 'The Manali–Leh highway over four high passes, or mountain-bike routes along trekking trails.'],
+  ['Motorcycle', 'Classic Royal Enfield tours over the highest roads in the world.'],
+  ['Rafting & riding', 'On the Indus and Zanskar rivers, on a pony, or on a Bactrian camel in Nubra.'],
+  ['Slow travel', 'Meditation, yoga, or living and working with a Ladakhi family.'],
+];
+
+const gallery = ['gompa', 'moon', 'river', 'maitreya', 'library', 'painter', 'novice', 'goats', 'mani', 'lake'];
+---
+<Base title="Ladakh" overlayHeader description="Ladakh – our home. Monasteries, high desert, trekking and expeditions in India’s far north.">
+  <Hero image="/images/temp/ladakh-phuktal.jpg" eyebrow="Destinations" title="Ladakh">
+    <p>Our home – and a dreamland for anyone who loves the Himalayas.</p>
+  </Hero>
+
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">Ladakh is our home</span>
+        <h2>Here we are the experts</h2>
+        <p class="lead">
+          Here we feel most at home, and here we know our way around better than anywhere else.
+        </p>
+        <p>
+          Ladakh is a true alternative to Tibet: in its Buddhist monasteries religion is not put on for show, it is
+          lived. On the road you may meet soldiers and police – Ladakh is a sensitive border region – but they are
+          friendly towards foreign guests.
+        </p>
+      </div>
+      <div class="facts">
+        <h3>Facts &amp; figures</h3>
+        <dl>
+          {facts.map(([k, v]) => (<><dt>{k}</dt><dd>{v}</dd></>))}
+        </dl>
+        <a class="link-arrow" href="https://www.openstreetmap.org/?mlat=34.1526&mlon=77.5771#map=7/34.15/77.58" target="_blank" rel="noopener">View on map</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--slate">
+    <div class="wrap split split--reverse">
+      <div>
+        <span class="eyebrow">Little Tibet</span>
+        <h2>Where two great ranges meet</h2>
+        <p>
+          Ladakh lies in the far north of India, on the borders with Pakistan and China. Politically it is a <strong>Union Territory</strong>; geographically it continues the Tibetan plateau. Here, at altitudes from
+          3,000 to over 7,000 metres, two of the mightiest mountain ranges meet: the <strong>Himalaya and the Karakoram</strong>.
+        </p>
+        <p>
+          It is also where Islam meets Tibetan Buddhism – the west of Ladakh is mainly Muslim, the east mainly Buddhist.
+          Ladakh is often called <strong>Little Tibet</strong>. In size that may be true, but Ladakh need not hide behind
+          its big brother: many Tibet travellers value it for a living, active culture they no longer find in Tibet.
+        </p>
+      </div>
+      <img src="/images/temp/ladakh-monks.jpg" alt="Monks and a young novice at prayer in a monastery assembly hall" class="ratio-4-3" loading="lazy" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="trio">
+        <div>
+          <span class="eyebrow">Monasteries</span>
+          <h2>The heart of Tibetan Buddhism</h2>
+          <p>
+            Monasteries top the list of sights – and there are almost as many as villages, since nearly every village
+            has one. <strong>Thiksey</strong> (one of the most beautiful), <strong>Hemis</strong> (the richest) and <strong>Alchi</strong> (one of the oldest) are the three no traveller should miss.
+          </p>
+          <p>
+            History lovers will find palaces of former kings, ruined fortresses, ancient rock carvings and the
+            lingering spirit of the old caravan routes.
+          </p>
+        </div>
+        <div class="trio__imgs">
+          <img src="/images/temp/ladakh-basgo.jpg" alt="Basgo fort under a rainbow" loading="lazy" />
+          <img src="/images/temp/ladakh-thiksey.jpg" alt="Thiksey monastery with white chortens" loading="lazy" />
+        </div>
+        <div>
+          <span class="eyebrow">Landscapes</span>
+          <h3>A desert full of colour</h3>
+          <p>
+            “High mountain desert” sounds like a dull, barren land. Wrong. The intense sunlight paints colour even on
+            bare rock. Green oasis valleys between rugged mountains, the high plains of the <strong>Changthang</strong>,
+            turquoise salt lakes above 4,000 m, sand dunes with Bactrian camels in <strong>Nubra</strong>, and remote
+            villages in legendary <strong>Zanskar</strong> – this fascinates far more than just photographers.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="wrap split split--wide-img">
+      <div>
+        <span class="eyebrow">The people</span>
+        <h2>And then, of course, the Ladakhis</h2>
+        <p>
+          Friendly but never pushy, quiet rather than loud – just like their land. Life at altitude under a fierce sun
+          has left its mark, yet Ladakhis love to laugh, even at work, of which there is plenty in summer. Meeting them
+          is what stays with you.
+        </p>
+        <p><strong>All this can be discovered on foot, by jeep, motorcycle or bicycle. The only thing you need is time.</strong></p>
+      </div>
+      <img src="/images/temp/ladakh-farmer.jpg" alt="A Ladakhi farmer smiling during the barley harvest" class="ratio-4-3" loading="lazy" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="center narrow" style="margin-bottom:56px">
+        <span class="eyebrow">Experience Ladakh actively</span>
+        <h2>Expeditions, trekking, sightseeing and more</h2>
+        <p class="lead">
+          Ladakh is a paradise for mountain lovers. Only on foot can you reach remote villages, passes hung with prayer
+          flags, and monasteries clinging to the rock like eagles’ nests.
+        </p>
+      </div>
+      <div class="grid grid--3 acts">
+        {activities.map(([t, d]) => (<div class="act"><h3>{t}</h3><p>{d}</p></div>))}
+      </div>
+      <div class="center" style="margin-top:48px">
+        <a href="/contact/#inquiry" class="btn">Plan your Ladakh trip</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="wrap">
+      <span class="eyebrow">Gallery</span>
+      <h2>Ladakh in pictures</h2>
+      <div class="gallery">
+        {gallery.map((g) => <img src={`/images/temp/gallery-${g}.jpg`} alt="" loading="lazy" />)}
+      </div>
+    </div>
+  </section>
+
+  {posts.length > 0 && (
+    <section class="section">
+      <div class="wrap">
+        <span class="eyebrow">From the blog</span>
+        <h2>Stories from Ladakh</h2>
+        <div class="grid grid--3" style="margin-top:40px">
+          {posts.map((p) => <PostCard {...p} />)}
+        </div>
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .facts { background: var(--paper); padding: clamp(28px, 4vw, 44px); border-radius: var(--radius); }
+  .facts dl { margin: 0 0 24px; }
+  .facts dt { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--saffron-deep); }
+  .facts dd { margin: 2px 0 14px; color: var(--ink-soft); font-size: 0.95rem; line-height: 1.55; }
+
+  .trio { display: grid; gap: 48px; }
+  @media (min-width: 960px) { .trio { grid-template-columns: 1fr 1fr 1fr; align-items: center; } }
+  .trio__imgs { display: grid; gap: 20px; }
+  .trio__imgs img { aspect-ratio: 3 / 2; width: 100%; object-fit: cover; border-radius: var(--radius); }
+
+  .act { border-top: 2px solid var(--saffron); padding-top: 20px; }
+  .act p { color: var(--ink-soft); font-size: 0.95rem; }
+
+  .gallery { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); margin-top: 40px; }
+  .gallery img { aspect-ratio: 3 / 2; width: 100%; object-fit: cover; border-radius: var(--radius); }
+</style>

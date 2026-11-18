@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import DestinationCard from '../../components/DestinationCard.astro';
+import { destinations } from '../../data/destinations.js';
+---
+<Base title="Destinations" description="Ladakh, Bhutan, Sikkim & Darjeeling and North India – the Himalayan destinations we know best.">
+  <section class="section">
+    <div class="wrap">
+      <div class="narrow" style="margin-bottom:56px">
+        <span class="eyebrow">Destinations</span>
+        <h1>Where do you want to travel?</h1>
+        <p class="lead">
+          We only take you to places we know deeply. It started with Ladakh, our home – and grew, slowly, to the
+          regions we have come to know just as well.
+        </p>
+      </div>
+      <div class="grid grid--4">
+        {destinations.map((d) => <DestinationCard {...d} />)}
+      </div>
+    </div>
+  </section>
+</Base>

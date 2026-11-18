@@ -1,0 +1,151 @@
+---
+// No backend yet: on submit the answers are put into an email to the office, opened in the visitor's mail app.
+// To receive submissions directly, point the form at a form service (e.g. Netlify Forms or Formspree) later.
+import { contact } from '../data/site.js';
+import { destinations } from '../data/destinations.js';
+---
+<form class="inquiry" id="inquiry" data-email={contact.email}>
+  <fieldset>
+    <legend>About you</legend>
+    <div class="row">
+      <label>Your name<input name="Name" required autocomplete="name" /></label>
+      <label>Email<input name="Email" type="email" required autocomplete="email" /></label>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Your trip</legend>
+    <div class="label">Where do you want to go?</div>
+    <div class="checks">
+      {destinations.map((d) => <label class="check"><input type="checkbox" name="Destinations" value={d.name} />{d.name}</label>)}
+      <label class="check"><input type="checkbox" name="Destinations" value="Not sure yet" />Not sure yet</label>
+    </div>
+
+    <div class="label">What should your trip be about?</div>
+    <div class="checks">
+      {['Culture & monasteries', 'Trekking', 'Expedition / climbing', 'Wildlife', 'Cycling / motorbike', 'Yoga & slow travel'].map((a) => (
+        <label class="check"><input type="checkbox" name="Activities" value={a} data-activity={a} />{a}</label>
+      ))}
+    </div>
+
+    <div class="row">
+      <label>How long would you like to travel?<input name="Length" placeholder="e.g. 2 weeks" /></label>
+      <label>How many travellers?<input name="Travellers" type="number" min="1" placeholder="e.g. 2" /></label>
+    </div>
+    <div class="row">
+      <label>When would you like to travel?<input name="Dates" placeholder="Month, season or exact dates" /></label>
+      <label>Flights to include?
+        <select name="Flights">
+          <option>No flights</option>
+          <option>Domestic flights within India</option>
+          <option>Domestic and international flights</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="label">Which accommodation suits you?</div>
+    <div class="checks">
+      {['Luxury hotels', 'Standard hotels', 'Clean guesthouses', 'Deluxe homestays', 'Simple farm homestays', 'Deluxe camps (tents with beds)', 'Lodges'].map((a) => (
+        <label class="check"><input type="checkbox" name="Accommodation" value={a} />{a}</label>
+      ))}
+    </div>
+  </fieldset>
+
+  <fieldset data-for="Trekking" hidden>
+    <legend>For trekking trips</legend>
+    <div class="row">
+      <label>Maximum walking hours per day
+        <select name="Walking hours"><option>Up to 4</option><option>4–6</option><option>6–8</option><option>More than 8</option></select>
+      </label>
+      <label>Do you hike or exercise regularly at home?
+        <select name="Fitness"><option>Yes, regularly</option><option>Sometimes</option><option>Rarely</option></select>
+      </label>
+    </div>
+    <div class="row">
+      <label>Are nights in tents okay?
+        <select name="Tents"><option>Yes</option><option>Some nights</option><option>No</option></select>
+      </label>
+      <label>Comfortable with heights and exposed paths?
+        <select name="Heights"><option>Yes</option><option>Somewhat</option><option>No – I suffer from vertigo</option></select>
+      </label>
+    </div>
+  </fieldset>
+
+  <fieldset data-for="Expedition / climbing" hidden>
+    <legend>For expeditions</legend>
+    <div class="row">
+      <label>Experience walking roped up?
+        <select name="Rope teams"><option>Yes</option><option>A little</option><option>None</option></select>
+      </label>
+      <label>Experience with crampons?
+        <select name="Crampons"><option>Yes</option><option>A little</option><option>None</option></select>
+      </label>
+    </div>
+    <label>How would you rate your climbing experience?
+      <select name="Climbing level"><option>Beginner</option><option>Intermediate</option><option>Very experienced</option><option>Expert</option></select>
+    </label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Anything else?</legend>
+    <label>Tell us more – budget, wishes, health or dietary needs
+      <textarea name="Message" rows="5"></textarea>
+    </label>
+  </fieldset>
+
+  <button type="submit" class="btn">Send inquiry</button>
+  <p class="hint">This opens your email app with your answers filled in – just press send. Or write to us directly at <a href={`mailto:${contact.email}`}>{contact.email}</a>.</p>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#inquiry');
+  if (form) {
+    const sync = () => {
+      form.querySelectorAll<HTMLFieldSetElement>('fieldset[data-for]').forEach((fs) => {
+        const box = form.querySelector<HTMLInputElement>(`[data-activity="${fs.dataset.for}"]`);
+        fs.hidden = !box?.checked;
+      });
+    };
+    form.addEventListener('change', sync);
+    sync();
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const lines: string[] = [];
+      const seen = new Set<string>();
+      for (const [key] of data) {
+        if (seen.has(key)) continue;
+        seen.add(key);
+        const field = form.querySelector(`[name="${key}"]`)?.closest('fieldset');
+        if (field?.hidden) continue;
+        const value = data.getAll(key).map(String).filter(Boolean).join(', ');
+        if (value) lines.push(`${key}: ${value}`);
+      }
+      const subject = `Trip inquiry – ${data.get('Name')}`;
+      window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+    });
+  }
+</script>
+
+<style>
+  .inquiry { display: grid; gap: 32px; }
+  fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 18px; }
+  legend { font-family: var(--serif); font-size: 1.5rem; margin-bottom: 8px; padding: 0; }
+  .row { display: grid; gap: 18px; }
+  @media (min-width: 640px) { .row { grid-template-columns: 1fr 1fr; } }
+  label, .label { display: grid; gap: 6px; font-size: 0.9rem; font-weight: 500; color: var(--ink); }
+  input:not([type=checkbox]), select, textarea {
+    font: inherit; font-weight: 400; font-size: 1rem;
+    padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius);
+    background: var(--white); color: var(--ink); width: 100%;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--saffron-deep); box-shadow: 0 0 0 3px rgba(228,163,53,.2); }
+  .checks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: -8px; }
+  .check { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; font-weight: 400; cursor: pointer; background: var(--white); }
+  .check:has(input:checked) { border-color: var(--saffron-deep); background: #fff4dd; }
+  .check input { accent-color: var(--saffron-deep); margin: 0; }
+  .btn { justify-self: start; }
+  .hint { font-size: 0.85rem; color: var(--muted); }
+  .hint a { color: var(--saffron-deep); }
+</style>

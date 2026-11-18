@@ -1,0 +1,124 @@
+---
+import Logo from './Logo.astro';
+import { nav } from '../data/site.js';
+
+interface Props { overlay?: boolean }
+const { overlay = false } = Astro.props;
+const path = Astro.url.pathname;
+const isActive = (href: string) => href !== '/' && path.startsWith(href);
+---
+<header class:list={['header', { 'header--overlay': overlay }]} data-header>
+  <div class="header__inner">
+    <a href="/" class="header__logo" aria-label="Gesar Travel – home"><Logo /></a>
+
+    <button class="header__toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+      <span class="sr-only">Menu</span>
+      <span class="bars" aria-hidden="true"></span>
+    </button>
+
+    <nav id="site-nav" class="nav" aria-label="Main">
+      <ul>
+        {nav.map((item) => (
+          <li class:list={{ 'has-children': item.children }}>
+            <a href={item.href} class:list={{ active: isActive(item.href) }}>{item.label}</a>
+            {item.children && (
+              <ul class="nav__sub">
+                {item.children.map((c) => <li><a href={c.href}>{c.label}</a></li>)}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+      <a href="/contact/#inquiry" class="btn btn--saffron nav__cta">Plan a trip</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const toggle = document.querySelector('[data-nav-toggle]');
+  toggle?.addEventListener('click', () => {
+    const open = header?.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(!!open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 40);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>
+
+<style>
+  .header {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--white); color: var(--ink);
+    border-bottom: 1px solid var(--line);
+    transition: background .3s, color .3s, border-color .3s;
+  }
+  .header--overlay {
+    position: fixed; left: 0; right: 0;
+    background: transparent; color: var(--white); border-color: transparent;
+  }
+  .header--overlay.is-scrolled, .header--overlay.is-open {
+    background: var(--white); color: var(--ink); border-color: var(--line);
+  }
+  .header__inner {
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 1400px; margin: 0 auto; padding: 14px var(--gutter);
+  }
+  .header__logo { text-decoration: none; }
+
+  .nav > ul { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
+  .nav a { text-decoration: none; }
+  .nav > ul > li { position: relative; }
+  .nav > ul > li > a {
+    display: block; padding: 10px 12px;
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    border-bottom: 1px solid transparent;
+  }
+  .nav > ul > li > a:hover, .nav > ul > li > a.active { border-color: var(--saffron); }
+  .nav__sub {
+    position: absolute; top: 100%; left: 0; min-width: 220px;
+    list-style: none; margin: 0; padding: 10px 0;
+    background: var(--white); color: var(--ink);
+    box-shadow: 0 12px 30px rgba(0,0,0,.12); border-radius: var(--radius);
+    opacity: 0; visibility: hidden; transform: translateY(6px);
+    transition: opacity .2s, transform .2s, visibility .2s;
+  }
+  .has-children:hover .nav__sub, .has-children:focus-within .nav__sub { opacity: 1; visibility: visible; transform: none; }
+  .nav__sub a { display: block; padding: 8px 20px; font-size: 0.92rem; }
+  .nav__sub a:hover { background: var(--paper); }
+  .nav { display: flex; align-items: center; gap: 16px; }
+  .nav__cta { padding: 11px 18px; font-size: 0.72rem; }
+  .header--overlay:not(.is-scrolled):not(.is-open) .nav__cta { background: transparent; color: var(--white); border-color: var(--white); }
+
+  .header__toggle { display: none; }
+
+  @media (max-width: 1100px) {
+    .header__toggle {
+      display: grid; place-items: center; width: 44px; height: 44px;
+      background: none; border: 0; color: inherit; cursor: pointer;
+    }
+    .bars, .bars::before, .bars::after {
+      display: block; width: 22px; height: 2px; background: currentColor; position: relative; transition: transform .25s;
+    }
+    .bars::before, .bars::after { content: ''; position: absolute; left: 0; }
+    .bars::before { top: -7px; } .bars::after { top: 7px; }
+    .is-open .bars { background: transparent; }
+    .is-open .bars::before { transform: translateY(7px) rotate(45deg); }
+    .is-open .bars::after { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav {
+      position: fixed; inset: 63px 0 0 0;
+      flex-direction: column; align-items: stretch; gap: 24px;
+      padding: 24px var(--gutter) 40px; background: var(--white); color: var(--ink);
+      overflow-y: auto;
+      display: none;
+    }
+    .is-open .nav { display: flex; }
+    .nav > ul { flex-direction: column; gap: 0; }
+    .nav > ul > li > a { padding: 14px 0; font-size: 0.95rem; border-bottom: 1px solid var(--line); }
+    .nav__sub { position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none; padding: 4px 0 8px 16px; }
+    .nav__sub a { padding: 8px 0; }
+    .nav__cta { justify-content: center; padding: 16px; }
+  }
+</style>

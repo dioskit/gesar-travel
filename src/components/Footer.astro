@@ -1,0 +1,49 @@
+---
+import Logo from './Logo.astro';
+import { contact, nav } from '../data/site.js';
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="wrap footer__grid">
+    <div class="footer__brand">
+      <Logo />
+      <p>Himalaya specialists since 2004. Tailor-made journeys and small-group tours from our home in Leh, Ladakh.</p>
+      <a href={`mailto:${contact.email}`}>{contact.email}</a>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        {nav.map((i) => <li><a href={i.href}>{i.label}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h4>Destinations</h4>
+      <ul>
+        {nav[0].children!.map((c) => <li><a href={c.href}>{c.label}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="/legal-notice/">Legal notice &amp; imprint</a></li>
+        <li><a href="/terms/">Terms &amp; conditions</a></li>
+        <li><a href="/privacy/">Privacy policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer__base">© {year} Gesar Travel · Leh, Ladakh, India</div>
+</footer>
+
+<style>
+  .footer { background: var(--ink); color: #c9d1d6; padding: 72px 0 28px; font-size: 0.92rem; }
+  .footer :global(.logo) { color: var(--white); margin-bottom: 18px; }
+  .footer__grid { display: grid; gap: 40px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .footer__brand { max-width: 320px; }
+  .footer__brand a { color: var(--saffron); }
+  .footer h4 { color: var(--saffron); margin-bottom: 14px; }
+  .footer ul { list-style: none; margin: 0; padding: 0; }
+  .footer li { margin-bottom: 6px; }
+  .footer ul a { text-decoration: none; }
+  .footer ul a:hover { color: var(--white); text-decoration: underline; }
+  .footer__base { margin-top: 56px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.12); font-size: 0.8rem; color: #8b979f; }
+</style>

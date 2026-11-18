@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+---
+<Base title="Group Tours" overlayHeader description="Small-group tours of 2 to 10 people, tried and tested over many years.">
+  <Hero image="/images/temp/group-window.jpg" eyebrow="Group tours" title="Small groups, carefully built" />
+
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">Tried and tested</span>
+        <h2>Never built in a hurry</h2>
+        <p class="lead">
+          We built every one of our group tours with great attention to detail. They are trips we have tried and
+          tested over years of experience.
+        </p>
+      </div>
+      <div class="pillars">
+        <div><strong>2–10</strong><span>travellers per group – our tours run with as few as two people</span></div>
+        <div><strong>Private</strong><span>Almost every group tour can also be booked just for you. Travelling with strangers isn’t for everyone.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="wrap">
+      <span class="eyebrow">Tours & dates</span>
+      <h2>Our group tours</h2>
+      <p class="note" style="margin-top:24px; max-width:640px">
+        The tour list – itineraries, dates, difficulty and prices – still needs to be added.
+      </p>
+      <div style="margin-top:40px; display:flex; gap:16px; flex-wrap:wrap">
+        <a href="/contact/#inquiry" class="btn">Ask about upcoming dates</a>
+        <a href="/individual-tours/" class="btn btn--ghost">Prefer to travel privately?</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .pillars { display: grid; gap: 32px; }
+  .pillars div { border-top: 2px solid var(--saffron); padding-top: 18px; display: grid; gap: 6px; }
+  .pillars strong { font-family: var(--serif); font-weight: 400; font-size: 2.6rem; line-height: 1; }
+  .pillars span { color: var(--ink-soft); }
+</style>

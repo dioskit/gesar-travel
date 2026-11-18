@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import InquiryForm from '../components/InquiryForm.astro';
+import { contact } from '../data/site.js';
+---
+<Base title="Contact" description="Get in touch with Gesar Travel in Leh, Ladakh, and tell us about the trip you have in mind.">
+  <section class="section section--paper">
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">Contact</span>
+        <h1>Let’s plan your journey</h1>
+        <p class="lead">For all questions about travel in Ladakh and India, please write to us.</p>
+        <p>
+          We ask for a little patience if a reply sometimes takes a few days – we are a small team and often out in the
+          mountains.
+        </p>
+        <p class="email"><a href={`mailto:${contact.email}`}>{contact.email}</a></p>
+      </div>
+      <img src="/images/temp/contact-kitchen.jpg" alt="Tea in a traditional Ladakhi kitchen" class="ratio-4-3" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap narrow">
+      <span class="eyebrow">Trip inquiry</span>
+      <h2>Tell us about your trip</h2>
+      <p class="lead" style="margin-bottom:48px">The more detail you give us, the better we can plan a trip that really suits you.</p>
+      <InquiryForm />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .email { font-family: var(--serif); font-size: 1.5rem; margin-top: 24px; }
+  .email a { color: var(--saffron-deep); text-decoration: none; border-bottom: 1px solid currentColor; }
+</style>

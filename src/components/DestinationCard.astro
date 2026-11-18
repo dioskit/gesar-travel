@@ -1,0 +1,21 @@
+---
+interface Props { slug: string; name: string; tagline: string; image: string }
+const { slug, name, tagline, image } = Astro.props;
+---
+<a class="dest" href={`/destinations/${slug}/`}>
+  <img src={image} alt="" loading="lazy" />
+  <div class="dest__body">
+    <h3>{name}</h3>
+    <p>{tagline}</p>
+  </div>
+</a>
+
+<style>
+  .dest { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius); color: var(--white); text-decoration: none; background: var(--ink); }
+  .dest img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+  .dest::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(15,22,27,.85)); }
+  .dest:hover img { transform: scale(1.04); }
+  .dest__body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 24px; }
+  .dest h3 { margin-bottom: 8px; }
+  .dest p { font-size: 0.9rem; line-height: 1.5; color: rgba(255,255,255,.85); }
+</style>

@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import { wildlife } from '../data/wildlife.js';
+const regions = [...new Set(wildlife.flatMap((w) => w.regions))];
+---
+<Base title="Wildlife" overlayHeader description="Where and when to see snow leopards, kiangs, black-necked cranes, red pandas and more in the Himalayas.">
+  <Hero image="/images/temp/wildlife-kiang.jpg" eyebrow="Wildlife collection" title="Wild Himalaya">
+    <p>What you can see, where to find it, and the best time to go.</p>
+  </Hero>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="filters" role="group" aria-label="Filter by region">
+        <button class="is-on" data-filter="all">All</button>
+        {regions.map((r) => <button data-filter={r}>{r}</button>)}
+      </div>
+      <div class="grid grid--3 animals">
+        {wildlife.map((w) => (
+          <article data-regions={w.regions.join("|")}>
+            {w.image
+              ? <img src={w.image} alt={w.name} loading="lazy" />
+              : <div class="photo-placeholder">Photo to come</div>}
+            <h3>{w.name}</h3>
+            <p class="latin">{w.latin}</p>
+            <dl>
+              <dt>Where</dt><dd>{w.where}</dd>
+              <dt>When</dt><dd>{w.when}</dd>
+            </dl>
+            <p class="desc">{w.note}</p>
+          </article>
+        ))}
+      </div>
+      <div class="center" style="margin-top:64px">
+        <a href="/contact/#inquiry" class="btn">Plan a wildlife trip</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  buttons.forEach((b) => b.addEventListener('click', () => {
+    buttons.forEach((x) => x.classList.toggle('is-on', x === b));
+    document.querySelectorAll<HTMLElement>('[data-regions]').forEach((card) => {
+      card.hidden = b.dataset.filter !== 'all' && !card.dataset.regions!.split("|").includes(b.dataset.filter!);
+    });
+  }));
+</script>
+
+<style>
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 48px; }
+  .filters button { font: 500 0.85rem var(--sans); padding: 9px 18px; border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--ink); cursor: pointer; }
+  .filters button.is-on { background: var(--ink); color: var(--white); border-color: var(--ink); }
+  .animals { gap: 56px 32px; }
+  .animals img, .animals .photo-placeholder { aspect-ratio: 4 / 3; width: 100%; object-fit: cover; border-radius: var(--radius); margin-bottom: 20px; }
+  .animals h3 { margin-bottom: 2px; }
+  .latin { font-style: italic; color: var(--muted); font-size: 0.9rem; margin-bottom: 14px; }
+  .animals dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 0 0 14px; font-size: 0.92rem; }
+  .animals dt { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--saffron-deep); padding-top: 3px; }
+  .animals dd { margin: 0; }
+  .desc { color: var(--ink-soft); font-size: 0.92rem; }
+</style>

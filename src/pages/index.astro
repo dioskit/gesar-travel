@@ -1,0 +1,141 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import DestinationCard from '../components/DestinationCard.astro';
+import { destinations } from '../data/destinations.js';
+import { wildlife } from '../data/wildlife.js';
+---
+<Base title="Home" overlayHeader>
+  <Hero size="full" image="/images/temp/ladakh-phuktal.jpg" eyebrow="Himalaya specialists since 2004" title="Journeys into the Himalayas">
+    <p>Tailor-made travel, trekking and expeditions in Ladakh, Bhutan, Sikkim and North India – planned by people who live here.</p>
+    <a href="/contact/#inquiry" class="btn btn--light">Plan your trip</a>
+  </Hero>
+
+  <!-- Where do you want to travel? -->
+  <section class="section">
+    <div class="wrap">
+      <div class="intro">
+        <div>
+          <span class="eyebrow">Destinations</span>
+          <h2>Where do you want to travel?</h2>
+        </div>
+        <p class="lead">
+          We are Himalaya specialists. We started in Ladakh and only slowly added other destinations in India.
+          Rapid growth is not our way – we wait until we truly know a country before we take you there.
+          And that works in your favour.
+        </p>
+      </div>
+      <div class="grid grid--4">
+        {destinations.map((d) => <DestinationCard {...d} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Who we are -->
+  <section class="section section--paper">
+    <div class="wrap split split--reverse">
+      <div>
+        <span class="eyebrow">Who we are</span>
+        <h2>A local team, led by a guide of twenty years</h2>
+        <p>
+          Gesar Travel was founded in 2004 by Tashi Wangail in Leh, Ladakh, and has since accompanied many hundreds of
+          travellers through the Himalayas. Tashi worked as a guide for almost two decades before starting the agency,
+          and knows Ladakh and the other Himalayan regions of India inside out.
+        </p>
+        <p>
+          That field knowledge is what lets us design trips around you: years on the trail with guests, combined with
+          careful logistics and organisation.
+        </p>
+        <a href="/team/" class="link-arrow">Meet the team</a>
+      </div>
+      <img src="/images/temp/ladakh-farmer.jpg" alt="A smiling Ladakhi farmer during the harvest" class="ratio-4-3" loading="lazy" />
+    </div>
+  </section>
+
+  <!-- We love the mountains -->
+  <section class="section">
+    <div class="wrap split">
+      <img src="/images/temp/ladakh-monks.jpg" alt="Monks at prayer in a Ladakhi monastery, a young novice looking at the camera" class="ratio-4-3" loading="lazy" />
+      <div>
+        <span class="eyebrow">Our passion</span>
+        <h2>We love the mountains</h2>
+        <p class="lead">
+          Trekking and expeditions are our passion. We love the mountains and walking – only there do we feel truly
+          free and at one with ourselves. We can’t imagine a better holiday, or a better way to find yourself.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote -->
+  <section class="quote">
+    <img src="/images/temp/ladakh-peaks.jpg" alt="" loading="lazy" />
+    <div class="wrap">
+      <blockquote>
+        “Mountains are voiceless masters and make silent disciples.”
+        <cite>Johann Wolfgang von Goethe</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Two ways to travel -->
+  <section class="section">
+    <div class="wrap">
+      <div class="center narrow" style="margin-bottom:48px">
+        <span class="eyebrow">How you travel</span>
+        <h2>Your trip, your way</h2>
+      </div>
+      <div class="grid grid--2">
+        <a href="/individual-tours/" class="way">
+          <img src="/images/temp/individual-girl.jpg" alt="" loading="lazy" />
+          <div>
+            <h3>Individual tours</h3>
+            <p>You choose the length, the group and the activities. We design and run the trip around you.</p>
+            <span class="link-arrow">Plan an individual tour</span>
+          </div>
+        </a>
+        <a href="/group-tours/" class="way">
+          <img src="/images/temp/group-window.jpg" alt="" loading="lazy" />
+          <div>
+            <h3>Small-group tours</h3>
+            <p>Tried-and-tested itineraries for 2 to 10 people – and almost all of them can be booked privately, too.</p>
+            <span class="link-arrow">See group tours</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wildlife teaser -->
+  <section class="section section--slate">
+    <div class="wrap split split--wide-img">
+      <div>
+        <span class="eyebrow">Wildlife collection</span>
+        <h2>Snow leopards, kiangs and cranes</h2>
+        <p class="lead">
+          From the snow leopard in Hemis to herds of wild asses on the Changthang plateau – find out what you can see,
+          where, and in which season.
+        </p>
+        <a href="/wildlife/" class="btn btn--light">Explore the wildlife</a>
+      </div>
+      <img src={wildlife[1].image} alt="A herd of kiang galloping across the Changthang plateau" class="ratio-3-2" loading="lazy" />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro { display: grid; gap: 24px 64px; margin-bottom: 56px; align-items: end; }
+  @media (min-width: 860px) { .intro { grid-template-columns: 5fr 7fr; } }
+  .intro h2 { margin-bottom: 0; }
+
+  .quote { position: relative; padding: clamp(120px, 18vw, 220px) 0; color: var(--white); overflow: hidden; background: var(--ink); }
+  .quote img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .38; }
+  .quote .wrap { position: relative; }
+  .quote blockquote { margin: 0 auto; max-width: 900px; text-align: center; font-family: var(--serif); font-style: italic; font-size: clamp(1.8rem, 4vw, 3.2rem); line-height: 1.25; }
+  .quote cite { display: block; margin-top: 24px; font: 500 0.8rem/1 var(--sans); font-style: normal; letter-spacing: 0.18em; text-transform: uppercase; color: var(--saffron); }
+
+  .way { display: block; text-decoration: none; }
+  .way img { aspect-ratio: 3 / 2; width: 100%; object-fit: cover; border-radius: var(--radius); margin-bottom: 24px; transition: opacity .3s; }
+  .way:hover img { opacity: .88; }
+  .way p { color: var(--ink-soft); }
+</style>

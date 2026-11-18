@@ -1,0 +1,17 @@
+---
+interface Props { url: string; title: string; excerpt: string; image: string }
+const { url, title, excerpt, image } = Astro.props;
+---
+<a class="post" href={url}>
+  <img src={image} alt="" loading="lazy" />
+  <h3>{title}</h3>
+  <p>{excerpt}</p>
+  <span class="link-arrow">Read more</span>
+</a>
+
+<style>
+  .post { display: block; text-decoration: none; }
+  .post img { aspect-ratio: 3 / 2; width: 100%; object-fit: cover; border-radius: var(--radius); margin-bottom: 20px; transition: opacity .3s; }
+  .post:hover img { opacity: .85; }
+  .post p { color: var(--ink-soft); font-size: 0.95rem; }
+</style>

@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+---
+<Base title="Individual Tours" overlayHeader description="Tailor-made journeys in the Himalayas – you decide the length, group size and activities, we make it happen.">
+  <Hero image="/images/temp/individual-girl.jpg" eyebrow="Individual tours" title="Do only what you really want to do" position="center 35%" />
+
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">Tailor-made travel</span>
+        <h2>You have wishes. We make them happen.</h2>
+        <p class="lead">
+          We have specialised in individual travel for many years. Off-the-shelf packages aren’t for us.
+        </p>
+        <p>
+          You decide the length of the trip, the number of travellers and the main activities – we take care of the rest.
+          Advice and many years of experience in turning travel wishes into reality are at the heart of our work.
+        </p>
+        <p>We are flexible and love adapting to what you want.</p>
+      </div>
+      <ol class="steps">
+        <li><strong>Tell us your idea</strong><span>Send us an inquiry – the more detail, the better.</span></li>
+        <li><strong>We design your trip</strong><span>Tashi and the team propose an itinerary and a price.</span></li>
+        <li><strong>Fine-tune together</strong><span>We adjust until it fits you exactly.</span></li>
+        <li><strong>Travel with us</strong><span>Our own guides and drivers look after you on the ground.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">What to include</span>
+        <h2>What should I put in my inquiry?</h2>
+        <p>
+          The more detail you give us, the better we can put together a trip that really suits you. Our inquiry form
+          asks about:
+        </p>
+        <ul class="ticks">
+          <li>Where you want to go and what the trip should be about</li>
+          <li>How long, how many people, and when you’d like to travel</li>
+          <li>Whether domestic or international flights should be included</li>
+          <li>Which kinds of accommodation suit you – from luxury hotels to simple farm homestays and deluxe camps</li>
+          <li><strong>Trekking:</strong> daily walking hours, fitness, tents, and comfort with heights</li>
+          <li><strong>Expeditions:</strong> rope-team and crampon experience, and your climbing level</li>
+        </ul>
+      </div>
+      <div class="cta-box">
+        <h3>How does it work?</h3>
+        <p>Fill in our inquiry form, or simply email us and tell us about your travel plans.</p>
+        <a href="/contact/#inquiry" class="btn">Start your inquiry</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .steps { list-style: none; margin: 0; padding: 0; counter-reset: s; display: grid; gap: 24px; }
+  .steps li { counter-increment: s; display: grid; grid-template-columns: 56px 1fr; column-gap: 16px; }
+  .steps li::before { content: counter(s, decimal-leading-zero); grid-row: span 2; font-family: var(--serif); font-size: 2rem; color: var(--saffron-deep); line-height: 1; }
+  .steps strong { font-family: var(--serif); font-weight: 400; font-size: 1.3rem; }
+  .steps span { color: var(--ink-soft); }
+  .ticks { padding: 0; list-style: none; }
+  .ticks li { position: relative; padding-left: 28px; margin-bottom: 10px; }
+  .ticks li::before { content: '✓'; position: absolute; left: 0; color: var(--saffron-deep); font-weight: 700; }
+  .cta-box { background: var(--white); padding: clamp(28px, 4vw, 48px); border-radius: var(--radius); }
+</style>

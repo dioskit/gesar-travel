@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPosts } from '../../data/posts.js';
+const posts = getPosts();
+---
+<Base title="Blog" description="Stories, festival dates and news from the Gesar Travel team in Ladakh.">
+  <section class="section">
+    <div class="wrap">
+      <div class="narrow" style="margin-bottom:56px">
+        <span class="eyebrow">Team blog</span>
+        <h1>Stories from the mountains</h1>
+        <p class="lead">News, festival dates and stories from our team. We write whenever we’re back from the field.</p>
+      </div>
+      <div class="grid grid--3">
+        {posts.map((p) => <PostCard {...p} />)}
+      </div>
+    </div>
+  </section>
+</Base>

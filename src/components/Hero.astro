@@ -1,0 +1,32 @@
+---
+interface Props {
+  image: string;
+  title: string;
+  eyebrow?: string;
+  size?: 'full' | 'page';
+  position?: string;
+}
+const { image, title, eyebrow, size = 'page', position = 'center' } = Astro.props;
+---
+<section class:list={['hero', `hero--${size}`]}>
+  <img src={image} alt="" style={`object-position:${position}`} fetchpriority="high" />
+  <div class="hero__shade"></div>
+  <div class="wrap hero__content">
+    {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+    <h1 set:html={title} />
+    <slot />
+  </div>
+</section>
+
+<style>
+  .hero { position: relative; display: flex; align-items: flex-end; color: var(--white); overflow: hidden; background: var(--ink); }
+  .hero--full { min-height: 100svh; }
+  .hero--page { min-height: clamp(420px, 68vh, 680px); }
+  .hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,22,27,.45) 0%, rgba(15,22,27,.05) 35%, rgba(15,22,27,.7) 100%); }
+  .hero__content { position: relative; padding-top: 120px; padding-bottom: clamp(48px, 8vw, 96px); }
+  .hero .eyebrow { color: var(--saffron); }
+  .hero h1 { max-width: 14ch; margin-bottom: 0.35em; }
+  .hero :global(p) { max-width: 560px; font-size: clamp(1.05rem, 1.5vw, 1.25rem); color: rgba(255,255,255,.9); }
+  .hero :global(.btn) { margin-top: 12px; }
+</style>

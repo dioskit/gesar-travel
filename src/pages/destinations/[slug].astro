@@ -1,0 +1,31 @@
+---
+// Bhutan, Sikkim & Darjeeling and North India. Ladakh has its own, fuller page (ladakh.astro).
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import { destinations } from '../../data/destinations.js';
+
+export function getStaticPaths() {
+  return destinations
+    .filter((d) => d.slug !== 'ladakh')
+    .map((d) => ({ params: { slug: d.slug }, props: { d } }));
+}
+const { d } = Astro.props;
+---
+<Base title={d.name} overlayHeader description={d.tagline}>
+  <Hero image={d.image} eyebrow="Destinations" title={d.name} position="center 30%">
+    <p>{d.tagline}</p>
+  </Hero>
+
+  <section class="section">
+    <div class="wrap narrow">
+      {d.intro.map((p: string, i: number) => <p class:list={{ lead: i === 0 }}>{p}</p>)}
+      <p class="note" style="margin-top:40px">
+        The full {d.name} page – highlights, best season, sample itineraries and gallery – is still being written.
+      </p>
+      <div style="margin-top:40px; display:flex; gap:16px; flex-wrap:wrap">
+        <a href="/contact/#inquiry" class="btn">Ask about {d.name}</a>
+        <a href="/destinations/" class="btn btn--ghost">All destinations</a>
+      </div>
+    </div>
+  </section>
+</Base>

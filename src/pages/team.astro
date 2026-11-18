@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import { team } from '../data/team.js';
+---
+<Base title="Team" description="Meet the Gesar Travel team – guides and organisers from Nubra, Zanskar and across Ladakh.">
+  <section class="section section--paper">
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">Our team</span>
+        <h1>We are family</h1>
+      </div>
+      <div>
+        <p class="lead">
+          Good teamwork is the foundation of every successful trip. We are lucky to work with many wonderful people
+          who complement each other – and it is a lot of fun to work in such a diverse, colourful team.
+        </p>
+        <p>
+          Wherever we are and whoever we are with, respect and communication on equal terms are what our work is built
+          on. We see ourselves as a family, not as bosses and staff – and we ask our guests to treat our team with the
+          same respect.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap grid grid--3 team">
+      {team.map((m) => (
+        <article>
+          <img src={m.image} alt={`Portrait of ${m.name}`} loading="lazy" />
+          <h3>{m.name}</h3>
+          <span class="eyebrow">{m.role}</span>
+          {m.bio.map((p) => <p>{p}</p>)}
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .team { gap: 64px 40px; }
+  .team img { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; margin-bottom: 24px; }
+  .team h3 { margin-bottom: 6px; }
+  .team .eyebrow { margin-bottom: 16px; }
+  .team p { color: var(--ink-soft); font-size: 0.95rem; }
+</style>
