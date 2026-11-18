@@ -1,8 +1,7 @@
 export const contact = {
   email: 'office@gesar-travel.com',
   // WhatsApp number in international format, digits only (e.g. '919876543210' for +91 98765 43210).
-  // TODO: fill in the office WhatsApp number. While empty, links open WhatsApp and let the visitor pick a contact.
-  whatsapp: '',
+  whatsapp: '919797047696',
 };
 
 /** Link that opens a WhatsApp chat with the office, with `text` pre-filled. */

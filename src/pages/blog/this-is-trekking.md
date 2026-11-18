@@ -11,4 +11,8 @@ We proudly present our two new promotional videos showing what our trekking tour
 
 When you step out of the plane in Leh, you are already at 3,500 m altitude.
 
-> **To do:** move the full article and embed the two videos from the old website.
+<video controls preload="none" playsinline poster="/video/hero-poster.jpg" style="width:100%;aspect-ratio:16/9;background:#000;border-radius:4px">
+  <source src="/video/trekking-in-ladakh.mp4" type="video/mp4" />
+</video>
+
+> **To do:** move the rest of the article and the second video from the old website.

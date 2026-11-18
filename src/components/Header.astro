@@ -5,7 +5,8 @@ import { nav, whatsappLink } from '../data/site.js';
 
 interface Props { overlay?: boolean }
 const { overlay = false } = Astro.props;
-const path = Astro.url.pathname;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = Astro.url.pathname.slice(base.length) || '/';
 const isActive = (href: string) => href !== '/' && path.startsWith(href);
 ---
 <header class:list={['header', { 'header--overlay': overlay }]} data-header>
