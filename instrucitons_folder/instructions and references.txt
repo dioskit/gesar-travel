@@ -1,0 +1,109 @@
+NOTES FOR GEASER WEBSITE
+
+
+REFERENCE WEBSITES
+https://www.blacktomato.com
+	landing page -> minimal but important informations
+https://www.muchbetteradventures.com
+	wildlife collection (picture and location will be nice
+
+STRUCTURE
+HOME
+	- Where do you want to travel?
+	: para (We are specialists for trips to the Himalayas. We started with Ladakh and only slowly approached other destinations in India. Rapid growth is not our thing. We prefer to wait until we have the necessary feel for a country before we include it in our program. That shouldn’t be to your disadvantage.) and image (//.....image_path.....//)
+
+	- Who we are?
+	: image (///.....image_path.....///) and para (Gesar Travel was founded in 2004 by Tashi Wangail n Ladakh, India and has since accompanied many hundreds of people on their travels through the Himalayas. Tashi worked as a guide for almost two decades before founding his travel agency and knows Ladakh and other Himalayan regions of India inside out. His field knowledge helps him understand what is best for you. He can work out individual programmes better than most on the market because he has travelled long enough with guests himself and is also a good logistician and organizer.)
+
+	- We love the mountains
+	: Trekking & expeditions absolutely are our hobbies. We love the mountains and walking. Only there do we really feel free and at one with ourselves. A better holiday and a better travel to yourself we can not imagine.	
+	
+	- image (Mountains are voiceless masters and make silent disciples.”
+Johann Wolfgang Goethe)
+
+
+
+	
+
+
+DESTINATIONS
+	Ladakh ( whole another page for it with everything (more to be discussed) )
+	Bhutan  ( whole another page for it with everything (more to be discussed) )
+	Sikkim and Darjeeling ( whole another page for it with everything (more to be discussed) )
+	Northern India  ( whole another page for it with everything (more to be discussed) )
+
+INDIVIDUAL TRAVEL
+	- Individual tours
+	: """We are specialists for individual travel for years. Off-the-peg trips are not our thing.
+
+You have wishes. We try to realize them in the best possible way.
+You decide the duration, the number of participants and the main activities. We implement.
+
+Consulting and our many years of experience in the implementation of individual travel wishes are at the heart of our work.
+
+We are flexible and love to adapt to your wishes!
+
+Do only what you really want to do! """
+	: """ How does it work?
+Email or call us and tell us about your travel needs. You can find our contact information here:
+
+Contact"""
+	: """ What should I include in my inquiry?
+The more detailed you describe what you have in mind, the more likely it is that we can put together a trip that really suits you. So feel free to be a little more detailed.
+
+Your Name
+
+E-Mail
+
+Where do you want to go?
+
+What activities should define your trip?
+
+How long may your trip last?
+
+For how many people should we plan the trip?
+
+Should national and/or international flights be included?
+
+What season/month would you like to travel? Do you already have an exact date in mind?
+
+Which accommodations may be included? e.g.: Luxury hotels, standard hotels, clean guesthouses, deluxe homestays, homestays with farmers (very simple), deluxe camps (tents with beds), lodges.
+
+Only for trekking trips:
+What is the maximum number of hours per day you can walk? e.g.: maximum 4, 4-6, 6-8, also more than 8 hours
+
+Do you also go hiking a lot at home or do you exercise regularly?
+
+Are overnight stays in tents okay for you?
+
+Do you have vertigo / are you free from dizziness at heights?
+
+Only for expeditions:
+Are you experienced in walking in rope teams?
+
+Are you experienced in walking with crampons?
+
+How experienced do you consider yourself when it comes to climbs? e.g.: Beginner, intermediate, very experienced, expert  """"
+
+
+GROUP TRAVEL
+	: """ Group Tours
+We have built all our group tours with great attention to detail. These are not trips that were built in a hurry. These are trips that we have tried and tested over years of experience.
+
+All of our trips are small group trips that usually start at just two people and have no more than 10 people.
+
+You can also book just about any of our group tours individually, because traveling with strangers – which some find appealing – is not for everyone. See also our page for individual tours."""
+
+TEAM BLOG
+
+CONTACT
+
+WILDLIFE COLLECTION
+
+
+
+
+FOOTER :
+Should have :-> (legal notice and imprint, terms & conditions)
+
+
