@@ -1,14 +1,16 @@
 ---
 import Logo from './Logo.astro';
-import { contact, nav } from '../data/site.js';
+import { contact, nav, whatsappLink } from '../data/site.js';
 const year = new Date().getFullYear();
 ---
+<hr class="flagline" />
 <footer class="footer">
   <div class="wrap footer__grid">
     <div class="footer__brand">
       <Logo />
       <p>Himalaya specialists since 2004. Tailor-made journeys and small-group tours from our home in Leh, Ladakh.</p>
-      <a href={`mailto:${contact.email}`}>{contact.email}</a>
+      <a href={`mailto:${contact.email}`}>{contact.email}</a><br />
+      <a href={whatsappLink()} target="_blank" rel="noopener">Message us on WhatsApp</a>
     </div>
     <div>
       <h4>Explore</h4>

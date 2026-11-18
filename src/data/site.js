@@ -1,7 +1,14 @@
 export const contact = {
   email: 'office@gesar-travel.com',
-  // TODO: add phone / WhatsApp and office address in Leh once confirmed.
+  // WhatsApp number in international format, digits only (e.g. '919876543210' for +91 98765 43210).
+  // TODO: fill in the office WhatsApp number. While empty, links open WhatsApp and let the visitor pick a contact.
+  whatsapp: '',
 };
+
+/** Link that opens a WhatsApp chat with the office, with `text` pre-filled. */
+export function whatsappLink(text = 'Hello Gesar Travel! I’d like to ask about a trip to the Himalayas.') {
+  return `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(text)}`;
+}
 
 export const nav = [
   {

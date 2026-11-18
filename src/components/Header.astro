@@ -1,6 +1,7 @@
 ---
 import Logo from './Logo.astro';
-import { nav } from '../data/site.js';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+import { nav, whatsappLink } from '../data/site.js';
 
 interface Props { overlay?: boolean }
 const { overlay = false } = Astro.props;
@@ -29,7 +30,12 @@ const isActive = (href: string) => href !== '/' && path.startsWith(href);
           </li>
         ))}
       </ul>
-      <a href="/contact/#inquiry" class="btn btn--saffron nav__cta">Plan a trip</a>
+      <div class="nav__actions">
+        <a href={whatsappLink()} class="nav__wa" target="_blank" rel="noopener" aria-label="WhatsApp us">
+          <WhatsAppIcon /><span>WhatsApp</span>
+        </a>
+        <a href="/contact/#inquiry" class="btn btn--saffron nav__cta">Plan a trip</a>
+      </div>
     </nav>
   </div>
 </header>
@@ -89,6 +95,11 @@ const isActive = (href: string) => href !== '/' && path.startsWith(href);
   .nav__sub a:hover { background: var(--paper); }
   .nav { display: flex; align-items: center; gap: 16px; }
   .nav__cta { padding: 11px 18px; font-size: 0.72rem; }
+  .nav__actions { display: flex; align-items: center; gap: 14px; }
+  .nav__wa { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+  .nav__wa:hover { color: #1fa855; }
+  .nav__wa span { display: none; }
+  @media (min-width: 1300px) { .nav__wa span { display: inline; } }
   .header--overlay:not(.is-scrolled):not(.is-open) .nav__cta { background: transparent; color: var(--white); border-color: var(--white); }
 
   .header__toggle { display: none; }
@@ -119,6 +130,9 @@ const isActive = (href: string) => href !== '/' && path.startsWith(href);
     .nav > ul > li > a { padding: 14px 0; font-size: 0.95rem; border-bottom: 1px solid var(--line); }
     .nav__sub { position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none; padding: 4px 0 8px 16px; }
     .nav__sub a { padding: 8px 0; }
+    .nav__actions { flex-direction: column; align-items: stretch; }
     .nav__cta { justify-content: center; padding: 16px; }
+    .nav__wa { justify-content: center; padding: 14px; border: 1px solid #25d366; border-radius: var(--radius); color: #128c4a; }
+    .nav__wa span { display: inline; }
   }
 </style>

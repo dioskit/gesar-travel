@@ -1,36 +1,58 @@
 ---
 import Base from '../layouts/Base.astro';
 import InquiryForm from '../components/InquiryForm.astro';
-import { contact } from '../data/site.js';
+import WhatsAppIcon from '../components/WhatsAppIcon.astro';
+import { contact, whatsappLink } from '../data/site.js';
 ---
-<Base title="Contact" description="Get in touch with Gesar Travel in Leh, Ladakh, and tell us about the trip you have in mind.">
-  <section class="section section--paper">
+<Base title="Contact" description="Plan your Himalayan trip with Gesar Travel – build your trip in a few steps, or message us on WhatsApp.">
+  <section class="section section--paper contact-top">
     <div class="wrap split">
       <div>
         <span class="eyebrow">Contact</span>
-        <h1>Let’s plan your journey</h1>
-        <p class="lead">For all questions about travel in Ladakh and India, please write to us.</p>
-        <p>
-          We ask for a little patience if a reply sometimes takes a few days – we are a small team and often out in the
-          mountains.
-        </p>
-        <p class="email"><a href={`mailto:${contact.email}`}>{contact.email}</a></p>
+        <h1>Let’s plan your <span class="accent">journey</span></h1>
+        <p class="lead">Three ways to reach us – pick whatever is easiest for you.</p>
+        <div class="ways">
+          <a href="#inquiry" class="way">
+            <span class="way__n">01</span>
+            <strong>Build your trip</strong>
+            <span>Six quick steps, about two minutes.</span>
+          </a>
+          <a href={whatsappLink()} target="_blank" rel="noopener" class="way way--wa">
+            <span class="way__n"><WhatsAppIcon size={22} /></span>
+            <strong>WhatsApp</strong>
+            <span>Chat with us directly – voice notes welcome.</span>
+          </a>
+          <a href={`mailto:${contact.email}`} class="way">
+            <span class="way__n">@</span>
+            <strong>Email</strong>
+            <span>{contact.email}</span>
+          </a>
+        </div>
+        <p class="muted">We are a small team and often out in the mountains – please give us a few days to reply.</p>
       </div>
-      <img src="/images/temp/contact-kitchen.jpg" alt="Tea in a traditional Ladakhi kitchen" class="ratio-4-3" />
+      <img src="/images/temp/contact-kitchen.jpg" alt="Tea in a traditional Ladakhi kitchen" class="ratio-4-5" />
     </div>
   </section>
 
   <section class="section">
-    <div class="wrap narrow">
-      <span class="eyebrow">Trip inquiry</span>
-      <h2>Tell us about your trip</h2>
-      <p class="lead" style="margin-bottom:48px">The more detail you give us, the better we can plan a trip that really suits you.</p>
+    <div class="wrap">
       <InquiryForm />
     </div>
   </section>
 </Base>
 
 <style>
-  .email { font-family: var(--serif); font-size: 1.5rem; margin-top: 24px; }
-  .email a { color: var(--saffron-deep); text-decoration: none; border-bottom: 1px solid currentColor; }
+  .contact-top img { max-height: 640px; }
+  .ways { display: grid; gap: 10px; margin: 32px 0 24px; }
+  .way {
+    display: grid; grid-template-columns: 48px 1fr; column-gap: 16px; align-items: center;
+    padding: 16px 18px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+    text-decoration: none; transition: border-color .2s, transform .2s;
+  }
+  .way:hover { border-color: var(--ink); transform: translateX(4px); }
+  .way__n { grid-row: span 2; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: var(--paper); font: 600 .9rem var(--sans); color: var(--saffron-deep); }
+  .way strong { font-family: var(--serif); font-weight: 400; font-size: 1.3rem; }
+  .way span:last-child { color: var(--ink-soft); font-size: .9rem; }
+  .way--wa .way__n { background: #25d366; color: #0b3d1e; }
+  .muted { color: var(--ink-soft); font-size: .92rem; }
 </style>

@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
 import PostCard from '../../components/PostCard.astro';
+import Months from '../../components/Months.astro';
 import { getPosts } from '../../data/posts.js';
 
 const posts = getPosts().filter((p) => p.tags.includes('ladakh')).slice(0, 3);
@@ -50,6 +51,11 @@ const gallery = ['gompa', 'moon', 'river', 'maitreya', 'library', 'painter', 'no
         <dl>
           {facts.map(([k, v]) => (<><dt>{k}</dt><dd>{v}</dd></>))}
         </dl>
+        <div class="season">
+          <span>Travel season</span>
+          <Months on={[5, 10]} best={[6, 7, 8, 9]} label="Ladakh travel season" />
+          <small><i class="b"></i>Best for trekking <i class="o"></i>Good for touring</small>
+        </div>
         <a class="link-arrow" href="https://www.openstreetmap.org/?mlat=34.1526&mlon=77.5771#map=7/34.15/77.58" target="_blank" rel="noopener">View on map</a>
       </div>
     </div>
@@ -170,6 +176,14 @@ const gallery = ['gompa', 'moon', 'river', 'maitreya', 'library', 'painter', 'no
   .facts dl { margin: 0 0 24px; }
   .facts dt { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--saffron-deep); }
   .facts dd { margin: 2px 0 14px; color: var(--ink-soft); font-size: 0.95rem; line-height: 1.55; }
+  .season { margin: 0 0 24px; }
+  .season > span { display: block; margin-bottom: 8px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--saffron-deep); }
+  .season :global(.months span) { background: var(--white); }
+  .season :global(.months span.on) { background: var(--flag-green); }
+  .season :global(.months span.best) { background: var(--saffron); }
+  .season small { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: .78rem; color: var(--ink-soft); }
+  .season i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .season i.b { background: var(--saffron); } .season i.o { background: var(--flag-green); margin-left: 10px; }
 
   .trio { display: grid; gap: 48px; }
   @media (min-width: 960px) { .trio { grid-template-columns: 1fr 1fr 1fr; align-items: center; } }

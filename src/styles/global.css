@@ -15,6 +15,13 @@
   --white: #ffffff;
   --line: #ddd3c0;
 
+  /* Prayer-flag colours (lungta): sky, cloud, fire, water, earth */
+  --flag-blue: #2f5d9b;
+  --flag-white: #f1ece1;
+  --flag-red: #b8322a;
+  --flag-green: #3f7d4e;
+  --flag-yellow: #e4a335;
+
   --serif: 'Fraunces Variable', Georgia, serif;
   --sans: 'Inter Variable', system-ui, -apple-system, sans-serif;
 
@@ -96,6 +103,8 @@ strong { font-weight: 600; }
 .btn--ghost:hover { background: var(--ink); color: var(--white); }
 .btn--saffron { background: var(--saffron); border-color: var(--saffron); color: var(--ink); }
 .btn--saffron:hover { background: transparent; color: var(--ink); }
+.btn--wa { background: #25d366; border-color: #25d366; color: #0b3d1e; }
+.btn--wa:hover { background: transparent; color: #128c4a; }
 .link-arrow {
   font: 600 0.8rem/1 var(--sans); letter-spacing: 0.12em; text-transform: uppercase;
   text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 4px;
@@ -136,6 +145,47 @@ strong { font-weight: 600; }
 
 .rule { width: 64px; height: 2px; background: var(--saffron); border: 0; margin: 0 0 28px; }
 .center .rule { margin-left: auto; margin-right: auto; }
+
+/* Prayer-flag strip – used as a divider and brand accent */
+.flagline {
+  height: 6px; border: 0; margin: 0;
+  background: linear-gradient(90deg,
+    var(--flag-blue) 0 20%, var(--flag-white) 20% 40%, var(--flag-red) 40% 60%,
+    var(--flag-green) 60% 80%, var(--flag-yellow) 80% 100%);
+}
+.flagline--short { width: 120px; height: 4px; margin-bottom: 28px; }
+.center .flagline--short { margin-left: auto; margin-right: auto; }
+
+/* Editorial type helpers */
+.mega { font-size: clamp(3rem, 9vw, 8.5rem); line-height: 0.95; letter-spacing: -0.03em; }
+.accent { font-style: italic; color: var(--saffron-deep); font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1; }
+.section--slate .accent, .on-dark .accent { color: var(--saffron); }
+.kicker-num { font-family: var(--serif); font-size: clamp(3rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.03em; }
+
+/* Scroll reveal (enabled only when JS adds .is-in) */
+.js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
+.js .reveal.is-in { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: .12s; } .reveal-delay-2 { transition-delay: .24s; } .reveal-delay-3 { transition-delay: .36s; }
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* Paper grain on beige sections */
+.section--paper { position: relative; isolation: isolate; }
+.section--paper::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; opacity: .35; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.38 0 0 0 0 0.25 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Month strip: 12 cells, highlighted months are .on */
+.months { display: grid; grid-template-columns: repeat(12, 1fr); gap: 3px; }
+.months span {
+  display: grid; place-items: center; height: 26px; border-radius: 2px;
+  font: 600 0.62rem var(--sans); letter-spacing: .04em; color: var(--muted); background: var(--paper);
+}
+.months span.on { background: var(--flag-green); color: var(--white); }
+.months span.best { background: var(--saffron); color: var(--ink); }
 
 :focus-visible { outline: 2px solid var(--saffron-deep); outline-offset: 3px; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

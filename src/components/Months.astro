@@ -1,0 +1,13 @@
+---
+// 12-month strip. `on` = good months, `best` = peak months (1 = January).
+interface Props { on?: number[]; best?: number[]; label?: string }
+const { on = [], best = [], label = 'Season' } = Astro.props;
+const names = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+const full = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const good = full.filter((_, i) => on.includes(i + 1) || best.includes(i + 1));
+---
+<div class="months" role="img" aria-label={`${label}: ${good.join(', ') || 'not set'}`}>
+  {names.map((n, i) => (
+    <span class:list={{ best: best.includes(i + 1), on: on.includes(i + 1) && !best.includes(i + 1) }} title={full[i]}>{n}</span>
+  ))}
+</div>

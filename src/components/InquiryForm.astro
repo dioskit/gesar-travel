@@ -1,151 +1,324 @@
 ---
-// No backend yet: on submit the answers are put into an email to the office, opened in the visitor's mail app.
-// To receive submissions directly, point the form at a form service (e.g. Netlify Forms or Formspree) later.
-import { contact } from '../data/site.js';
+// Step-by-step trip builder. No backend: "Send" opens WhatsApp or the visitor's email app with the
+// answers filled in. Without JavaScript all steps show as one long form.
+import { contact, whatsappLink } from '../data/site.js';
 import { destinations } from '../data/destinations.js';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+
+const activities = ['Culture & monasteries', 'Trekking', 'Expedition / climbing', 'Wildlife', 'Cycling / motorbike', 'Yoga & slow travel', 'Photography', 'Festivals'];
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const stays = ['Luxury hotels', 'Standard hotels', 'Clean guesthouses', 'Deluxe homestays', 'Simple farm homestays', 'Deluxe camps', 'Lodges'];
+const steps = ['Where', 'What', 'When', 'Comfort', 'Details', 'You'];
 ---
-<form class="inquiry" id="inquiry" data-email={contact.email}>
-  <fieldset>
-    <legend>About you</legend>
-    <div class="row">
-      <label>Your name<input name="Name" required autocomplete="name" /></label>
-      <label>Email<input name="Email" type="email" required autocomplete="email" /></label>
-    </div>
-  </fieldset>
+<form class="tb" id="inquiry" data-email={contact.email} data-wa={whatsappLink('')} novalidate>
+  <ol class="tb__progress" aria-hidden="true">
+    {steps.map((s, i) => <li data-dot={i}><span>{i + 1}</span>{s}</li>)}
+  </ol>
 
-  <fieldset>
-    <legend>Your trip</legend>
-    <div class="label">Where do you want to go?</div>
-    <div class="checks">
-      {destinations.map((d) => <label class="check"><input type="checkbox" name="Destinations" value={d.name} />{d.name}</label>)}
-      <label class="check"><input type="checkbox" name="Destinations" value="Not sure yet" />Not sure yet</label>
+  <div class="tb__layout">
+    <div class="tb__steps">
+      <fieldset class="tb__step" data-step="0">
+        <legend><small>Step 1</small>Where would you like to go?</legend>
+        <div class="tiles">
+          {destinations.map((d) => (
+            <label class="tile">
+              <input type="checkbox" name="Destinations" value={d.name} />
+              <img src={d.image} alt="" loading="lazy" />
+              <span>{d.name}</span>
+            </label>
+          ))}
+        </div>
+        <label class="chip chip--wide"><input type="checkbox" name="Destinations" value="Not sure yet – advise me" />Not sure yet – advise me</label>
+      </fieldset>
+
+      <fieldset class="tb__step" data-step="1">
+        <legend><small>Step 2</small>What should your trip be about?</legend>
+        <div class="chips">
+          {activities.map((a) => <label class="chip"><input type="checkbox" name="Activities" value={a} />{a}</label>)}
+        </div>
+      </fieldset>
+
+      <fieldset class="tb__step" data-step="2">
+        <legend><small>Step 3</small>When, how long, and who’s coming?</legend>
+        <div class="label">Months you could travel</div>
+        <div class="monthpick">
+          {months.map((m) => <label class="chip chip--sq"><input type="checkbox" name="Months" value={m} />{m}</label>)}
+        </div>
+        <div class="row">
+          <label class="label">Length of trip – <output data-days-out>14 days</output>
+            <input type="range" name="Days" min="3" max="35" value="14" data-days />
+          </label>
+          <div class="label">Travellers
+            <div class="stepper">
+              <button type="button" data-step-btn="-1" aria-label="Fewer travellers">−</button>
+              <input name="Travellers" type="number" min="1" max="30" value="2" inputmode="numeric" />
+              <button type="button" data-step-btn="1" aria-label="More travellers">+</button>
+            </div>
+          </div>
+        </div>
+        <label class="label">Exact dates, if you have them<input name="Dates" placeholder="e.g. 10–24 July 2027" /></label>
+      </fieldset>
+
+      <fieldset class="tb__step" data-step="3">
+        <legend><small>Step 4</small>How do you like to stay?</legend>
+        <div class="chips">
+          {stays.map((s) => <label class="chip"><input type="checkbox" name="Accommodation" value={s} />{s}</label>)}
+        </div>
+        <label class="label" style="margin-top:12px">Flights
+          <select name="Flights">
+            <option>No flights – I’ll book my own</option>
+            <option>Domestic flights within India</option>
+            <option>Domestic and international flights</option>
+          </select>
+        </label>
+      </fieldset>
+
+      <fieldset class="tb__step" data-step="4">
+        <legend><small>Step 5</small>A few details</legend>
+        <p class="muted" data-no-details>Nothing extra needed for your trip – continue to the last step.</p>
+        <div data-for="Trekking" hidden>
+          <h4>For trekking</h4>
+          <div class="row">
+            <label class="label">Max. walking hours per day
+              <select name="Walking hours"><option>Up to 4</option><option>4–6</option><option>6–8</option><option>More than 8</option></select>
+            </label>
+            <label class="label">Do you hike or exercise regularly?
+              <select name="Fitness"><option>Yes, regularly</option><option>Sometimes</option><option>Rarely</option></select>
+            </label>
+            <label class="label">Nights in tents okay?
+              <select name="Tents"><option>Yes</option><option>Some nights</option><option>No</option></select>
+            </label>
+            <label class="label">Comfortable with heights?
+              <select name="Heights"><option>Yes</option><option>Somewhat</option><option>No – I suffer from vertigo</option></select>
+            </label>
+          </div>
+        </div>
+        <div data-for="Expedition / climbing" hidden>
+          <h4>For expeditions</h4>
+          <div class="row">
+            <label class="label">Experience walking roped up?
+              <select name="Rope teams"><option>Yes</option><option>A little</option><option>None</option></select>
+            </label>
+            <label class="label">Experience with crampons?
+              <select name="Crampons"><option>Yes</option><option>A little</option><option>None</option></select>
+            </label>
+            <label class="label">Your climbing level
+              <select name="Climbing level"><option>Beginner</option><option>Intermediate</option><option>Very experienced</option><option>Expert</option></select>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="tb__step" data-step="5">
+        <legend><small>Step 6</small>Who are we planning for?</legend>
+        <div class="row">
+          <label class="label">Your name<input name="Name" autocomplete="name" required /></label>
+          <label class="label">Email<input name="Email" type="email" autocomplete="email" /></label>
+        </div>
+        <label class="label">Anything else? Budget, wishes, health or dietary needs
+          <textarea name="Message" rows="4"></textarea>
+        </label>
+        <p class="error" data-error hidden>Please tell us your name.</p>
+        <div class="send">
+          <button type="submit" class="btn btn--wa" data-send="wa"><WhatsAppIcon /> Send on WhatsApp</button>
+          <button type="submit" class="btn" data-send="mail">Send by email</button>
+        </div>
+        <p class="muted small">Both open with your answers filled in – just press send. We usually reply within a few days.</p>
+      </fieldset>
+
+      <div class="tb__nav" data-nav hidden>
+        <button type="button" class="btn btn--ghost" data-prev>Back</button>
+        <button type="button" class="btn" data-next>Continue</button>
+      </div>
     </div>
 
-    <div class="label">What should your trip be about?</div>
-    <div class="checks">
-      {['Culture & monasteries', 'Trekking', 'Expedition / climbing', 'Wildlife', 'Cycling / motorbike', 'Yoga & slow travel'].map((a) => (
-        <label class="check"><input type="checkbox" name="Activities" value={a} data-activity={a} />{a}</label>
-      ))}
-    </div>
-
-    <div class="row">
-      <label>How long would you like to travel?<input name="Length" placeholder="e.g. 2 weeks" /></label>
-      <label>How many travellers?<input name="Travellers" type="number" min="1" placeholder="e.g. 2" /></label>
-    </div>
-    <div class="row">
-      <label>When would you like to travel?<input name="Dates" placeholder="Month, season or exact dates" /></label>
-      <label>Flights to include?
-        <select name="Flights">
-          <option>No flights</option>
-          <option>Domestic flights within India</option>
-          <option>Domestic and international flights</option>
-        </select>
-      </label>
-    </div>
-
-    <div class="label">Which accommodation suits you?</div>
-    <div class="checks">
-      {['Luxury hotels', 'Standard hotels', 'Clean guesthouses', 'Deluxe homestays', 'Simple farm homestays', 'Deluxe camps (tents with beds)', 'Lodges'].map((a) => (
-        <label class="check"><input type="checkbox" name="Accommodation" value={a} />{a}</label>
-      ))}
-    </div>
-  </fieldset>
-
-  <fieldset data-for="Trekking" hidden>
-    <legend>For trekking trips</legend>
-    <div class="row">
-      <label>Maximum walking hours per day
-        <select name="Walking hours"><option>Up to 4</option><option>4–6</option><option>6–8</option><option>More than 8</option></select>
-      </label>
-      <label>Do you hike or exercise regularly at home?
-        <select name="Fitness"><option>Yes, regularly</option><option>Sometimes</option><option>Rarely</option></select>
-      </label>
-    </div>
-    <div class="row">
-      <label>Are nights in tents okay?
-        <select name="Tents"><option>Yes</option><option>Some nights</option><option>No</option></select>
-      </label>
-      <label>Comfortable with heights and exposed paths?
-        <select name="Heights"><option>Yes</option><option>Somewhat</option><option>No – I suffer from vertigo</option></select>
-      </label>
-    </div>
-  </fieldset>
-
-  <fieldset data-for="Expedition / climbing" hidden>
-    <legend>For expeditions</legend>
-    <div class="row">
-      <label>Experience walking roped up?
-        <select name="Rope teams"><option>Yes</option><option>A little</option><option>None</option></select>
-      </label>
-      <label>Experience with crampons?
-        <select name="Crampons"><option>Yes</option><option>A little</option><option>None</option></select>
-      </label>
-    </div>
-    <label>How would you rate your climbing experience?
-      <select name="Climbing level"><option>Beginner</option><option>Intermediate</option><option>Very experienced</option><option>Expert</option></select>
-    </label>
-  </fieldset>
-
-  <fieldset>
-    <legend>Anything else?</legend>
-    <label>Tell us more – budget, wishes, health or dietary needs
-      <textarea name="Message" rows="5"></textarea>
-    </label>
-  </fieldset>
-
-  <button type="submit" class="btn">Send inquiry</button>
-  <p class="hint">This opens your email app with your answers filled in – just press send. Or write to us directly at <a href={`mailto:${contact.email}`}>{contact.email}</a>.</p>
+    <aside class="tb__summary" aria-live="polite">
+      <hr class="flagline flagline--short" />
+      <h3>Your trip so far</h3>
+      <dl data-summary>
+        <dt>Where</dt><dd data-sum="Destinations">–</dd>
+        <dt>What</dt><dd data-sum="Activities">–</dd>
+        <dt>When</dt><dd data-sum="Months">–</dd>
+        <dt>Length</dt><dd data-sum="Days">14 days</dd>
+        <dt>Travellers</dt><dd data-sum="Travellers">2</dd>
+        <dt>Stay</dt><dd data-sum="Accommodation">–</dd>
+      </dl>
+    </aside>
+  </div>
 </form>
 
 <script>
   const form = document.querySelector<HTMLFormElement>('#inquiry');
   if (form) {
-    const sync = () => {
-      form.querySelectorAll<HTMLFieldSetElement>('fieldset[data-for]').forEach((fs) => {
-        const box = form.querySelector<HTMLInputElement>(`[data-activity="${fs.dataset.for}"]`);
-        fs.hidden = !box?.checked;
-      });
-    };
-    form.addEventListener('change', sync);
-    sync();
+    const steps = [...form.querySelectorAll<HTMLFieldSetElement>('.tb__step')];
+    const dots = [...form.querySelectorAll<HTMLElement>('[data-dot]')];
+    const nav = form.querySelector<HTMLElement>('[data-nav]')!;
+    const prev = form.querySelector<HTMLButtonElement>('[data-prev]')!;
+    const next = form.querySelector<HTMLButtonElement>('[data-next]')!;
+    const days = form.querySelector<HTMLInputElement>('[data-days]')!;
+    const daysOut = form.querySelector<HTMLOutputElement>('[data-days-out]')!;
+    const travellers = form.querySelector<HTMLInputElement>('[name="Travellers"]')!;
+    const error = form.querySelector<HTMLElement>('[data-error]')!;
+    let current = 0;
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
+    form.classList.add('is-stepped');
+    nav.hidden = false;
+
+    const show = (i: number, focus = true) => {
+      current = Math.max(0, Math.min(steps.length - 1, i));
+      steps.forEach((s, n) => s.classList.toggle('is-active', n === current));
+      dots.forEach((d, n) => { d.classList.toggle('is-done', n < current); d.classList.toggle('is-active', n === current); });
+      prev.style.visibility = current === 0 ? 'hidden' : 'visible';
+      next.hidden = current === steps.length - 1;
+      if (focus) {
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        steps[current].querySelector<HTMLElement>('input, select, textarea')?.focus({ preventScroll: true });
+      }
+    };
+
+    const values = (name: string) => new FormData(form).getAll(name).map(String).filter(Boolean);
+
+    const sync = () => {
+      const acts = values('Activities');
+      let anyDetails = false;
+      form.querySelectorAll<HTMLElement>('[data-for]').forEach((el) => {
+        el.hidden = !acts.includes(el.dataset.for!);
+        anyDetails ||= !el.hidden;
+      });
+      form.querySelector<HTMLElement>('[data-no-details]')!.hidden = anyDetails;
+      daysOut.textContent = `${days.value} days`;
+      const set = (k: string, v: string) => { form.querySelector(`[data-sum="${k}"]`)!.textContent = v || '–'; };
+      set('Destinations', values('Destinations').join(', '));
+      set('Activities', acts.join(', '));
+      set('Months', values('Months').join(', '));
+      set('Days', `${days.value} days`);
+      set('Travellers', travellers.value);
+      set('Accommodation', values('Accommodation').join(', '));
+    };
+
+    form.addEventListener('input', sync);
+    form.addEventListener('change', sync);
+    form.querySelectorAll<HTMLButtonElement>('[data-step-btn]').forEach((b) => b.addEventListener('click', () => {
+      travellers.value = String(Math.max(1, Math.min(30, Number(travellers.value || 1) + Number(b.dataset.stepBtn))));
+      sync();
+    }));
+    prev.addEventListener('click', () => show(current - 1));
+    next.addEventListener('click', () => show(current + 1));
+    dots.forEach((d, n) => d.addEventListener('click', () => show(n)));
+
+    const message = () => {
       const data = new FormData(form);
       const lines: string[] = [];
       const seen = new Set<string>();
       for (const [key] of data) {
         if (seen.has(key)) continue;
         seen.add(key);
-        const field = form.querySelector(`[name="${key}"]`)?.closest('fieldset');
-        if (field?.hidden) continue;
-        const value = data.getAll(key).map(String).filter(Boolean).join(', ');
+        if (form.querySelector(`[name="${key}"]`)?.closest('[hidden]')) continue;
+        let value = data.getAll(key).map(String).filter(Boolean).join(', ');
+        if (key === 'Days') value += ' days';
         if (value) lines.push(`${key}: ${value}`);
       }
-      const subject = `Trip inquiry – ${data.get('Name')}`;
-      window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+      return `Hello Gesar Travel, I’d like to plan a trip.\n\n${lines.join('\n')}`;
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = String(new FormData(form).get('Name') || '').trim();
+      error.hidden = !!name;
+      if (!name) { show(steps.length - 1, false); form.querySelector<HTMLInputElement>('[name="Name"]')!.focus(); return; }
+      const via = (e.submitter as HTMLButtonElement | null)?.dataset.send;
+      const text = message();
+      if (via === 'wa') {
+        window.open(form.dataset.wa + encodeURIComponent(text), '_blank', 'noopener');
+      } else {
+        window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(`Trip inquiry – ${name}`)}&body=${encodeURIComponent(text)}`;
+      }
     });
+
+    sync();
+    show(0, false);
   }
 </script>
 
 <style>
-  .inquiry { display: grid; gap: 32px; }
-  fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 18px; }
-  legend { font-family: var(--serif); font-size: 1.5rem; margin-bottom: 8px; padding: 0; }
-  .row { display: grid; gap: 18px; }
+  .tb { --gap: 18px; }
+  .tb__progress { display: none; }
+  .tb__layout { display: grid; gap: 40px; }
+  @media (min-width: 1000px) { .tb__layout { grid-template-columns: minmax(0, 1fr) 320px; gap: 64px; align-items: start; } }
+
+  fieldset { border: 0; padding: 0; margin: 0 0 48px; display: grid; gap: var(--gap); min-width: 0; }
+  legend { font-family: var(--serif); font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: 1.15; padding: 0; margin-bottom: 14px; }
+  legend small { display: block; font: 600 .72rem var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--saffron-deep); margin-bottom: 10px; }
+  h4 { margin: 8px 0 0; }
+  .row { display: grid; gap: var(--gap); }
   @media (min-width: 640px) { .row { grid-template-columns: 1fr 1fr; } }
-  label, .label { display: grid; gap: 6px; font-size: 0.9rem; font-weight: 500; color: var(--ink); }
-  input:not([type=checkbox]), select, textarea {
-    font: inherit; font-weight: 400; font-size: 1rem;
-    padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius);
-    background: var(--white); color: var(--ink); width: 100%;
+  .label { display: grid; gap: 8px; font-size: .9rem; font-weight: 500; }
+  input:not([type=checkbox]):not([type=range]), select, textarea {
+    font: inherit; font-weight: 400; font-size: 1rem; width: 100%;
+    padding: 13px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); color: var(--ink);
   }
-  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--saffron-deep); box-shadow: 0 0 0 3px rgba(228,163,53,.2); }
-  .checks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: -8px; }
-  .check { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; font-weight: 400; cursor: pointer; background: var(--white); }
-  .check:has(input:checked) { border-color: var(--saffron-deep); background: #fff4dd; }
-  .check input { accent-color: var(--saffron-deep); margin: 0; }
-  .btn { justify-self: start; }
-  .hint { font-size: 0.85rem; color: var(--muted); }
-  .hint a { color: var(--saffron-deep); }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--saffron-deep); box-shadow: 0 0 0 3px rgba(228,163,53,.22); }
+  input[type=range] { width: 100%; accent-color: var(--saffron-deep); height: 28px; }
+  .muted { color: var(--ink-soft); }
+  .small { font-size: .85rem; }
+
+  /* Destination tiles */
+  .tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media (min-width: 720px) { .tiles { grid-template-columns: repeat(4, 1fr); } }
+  .tile { position: relative; display: block; aspect-ratio: 3 / 4; border-radius: var(--radius); overflow: hidden; cursor: pointer; background: var(--ink); outline: 3px solid transparent; outline-offset: -3px; transition: outline-color .2s; }
+  .tile img { width: 100%; height: 100%; object-fit: cover; opacity: .75; transition: opacity .3s, transform .6s; }
+  .tile span { position: absolute; left: 14px; right: 14px; bottom: 14px; color: var(--white); font-family: var(--serif); font-size: 1.25rem; line-height: 1.15; }
+  .tile input { position: absolute; top: 12px; right: 12px; z-index: 1; width: 22px; height: 22px; accent-color: var(--saffron); }
+  .tile:hover img { opacity: .9; transform: scale(1.04); }
+  .tile:has(input:checked) { outline-color: var(--saffron); }
+  .tile:has(input:checked) img { opacity: 1; }
+  .tile:has(input:focus-visible) { outline-color: var(--saffron-deep); }
+
+  /* Chips */
+  .chips, .monthpick { display: flex; flex-wrap: wrap; gap: 10px; }
+  .monthpick { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  @media (min-width: 720px) { .monthpick { grid-template-columns: repeat(12, 1fr); } }
+  .chip { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 18px; border: 1px solid var(--line); border-radius: 999px; background: var(--white); cursor: pointer; font-size: .95rem; transition: background .2s, border-color .2s, color .2s; user-select: none; }
+  .chip input { position: absolute; opacity: 0; pointer-events: none; }
+  .chip:hover { border-color: var(--ink-soft); }
+  .chip:has(input:checked) { background: var(--ink); border-color: var(--ink); color: var(--white); }
+  .chip:has(input:focus-visible) { box-shadow: 0 0 0 3px rgba(228,163,53,.4); }
+  .chip--sq { border-radius: var(--radius); padding: 12px 0; font-size: .85rem; }
+  .chip--wide { justify-self: start; }
+
+  .stepper { display: grid; grid-template-columns: 48px 1fr 48px; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--white); }
+  .stepper button { border: 0; background: var(--paper); font-size: 1.3rem; cursor: pointer; color: var(--ink); }
+  .stepper button:hover { background: var(--paper-deep); }
+  .stepper input { border: 0 !important; text-align: center; border-radius: 0 !important; -moz-appearance: textfield; }
+  .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+  .error { color: var(--flag-red); font-weight: 500; margin: 0; }
+  .send { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+
+  /* Summary */
+  .tb__summary { background: var(--paper); padding: 28px; border-radius: var(--radius); }
+  @media (min-width: 1000px) { .tb__summary { position: sticky; top: 100px; } }
+  .tb__summary h3 { font-size: 1.4rem; }
+  .tb__summary dl { display: grid; grid-template-columns: auto 1fr; gap: 10px 16px; margin: 0; font-size: .92rem; }
+  .tb__summary dt { font: 600 .68rem var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--saffron-deep); padding-top: 4px; }
+  .tb__summary dd { margin: 0; color: var(--ink); }
+
+  /* Stepped mode (JS on) */
+  .is-stepped .tb__step { display: none; margin: 0; }
+  .is-stepped .tb__step.is-active { display: grid; animation: stepIn .45s cubic-bezier(.2,.7,.2,1); }
+  @keyframes stepIn { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .is-stepped .tb__step.is-active { animation: none; } }
+  .is-stepped .tb__progress { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; list-style: none; padding: 0; margin: 0 0 40px; }
+  .tb__progress li { position: relative; padding-top: 14px; font: 600 .68rem var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); cursor: pointer; }
+  .tb__progress li::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; border-radius: 2px; background: var(--line); transition: background .3s; }
+  .tb__progress li:nth-child(1).is-done::before, .tb__progress li:nth-child(1).is-active::before { background: var(--flag-blue); }
+  .tb__progress li:nth-child(2).is-done::before, .tb__progress li:nth-child(2).is-active::before { background: var(--ink-soft); }
+  .tb__progress li:nth-child(3).is-done::before, .tb__progress li:nth-child(3).is-active::before { background: var(--flag-red); }
+  .tb__progress li:nth-child(4).is-done::before, .tb__progress li:nth-child(4).is-active::before { background: var(--flag-green); }
+  .tb__progress li:nth-child(5).is-done::before, .tb__progress li:nth-child(5).is-active::before { background: var(--flag-yellow); }
+  .tb__progress li:nth-child(6).is-done::before, .tb__progress li:nth-child(6).is-active::before { background: #25d366; }
+  .tb__progress li.is-active { color: var(--ink); }
+  .tb__progress span { display: none; }
+  @media (max-width: 640px) { .tb__progress li { font-size: 0; } .tb__progress span { display: inline; font-size: .72rem; } }
+  .tb__nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--line); }
 </style>

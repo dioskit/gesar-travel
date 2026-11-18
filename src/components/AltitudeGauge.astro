@@ -1,0 +1,68 @@
+---
+// Fixed altitude read-out on the right edge (desktop only): scrolling down the page "climbs"
+// from Leh to a 6,000 m summit, with waypoints along the way.
+const waypoints = [
+  { m: 3500, label: 'Leh' },
+  { m: 4520, label: 'Tso Moriri' },
+  { m: 5359, label: 'Khardung La' },
+  { m: 6000, label: 'Summit' },
+];
+const min = 3500, max = 6000;
+---
+<aside class="alt" aria-hidden="true" data-alt data-min={min} data-max={max}>
+  <div class="alt__rail">
+    {waypoints.map((w) => (
+      <span class="alt__wp" style={`bottom:${((w.m - min) / (max - min)) * 100}%`}>
+        <b>{w.m.toLocaleString('en')}</b> {w.label}
+      </span>
+    ))}
+    <div class="alt__fill" data-alt-fill></div>
+    <div class="alt__marker" data-alt-marker><span data-alt-value>3,500</span> m</div>
+  </div>
+</aside>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-alt]');
+  if (root) {
+    const min = Number(root.dataset.min), max = Number(root.dataset.max);
+    const fill = root.querySelector<HTMLElement>('[data-alt-fill]')!;
+    const marker = root.querySelector<HTMLElement>('[data-alt-marker]')!;
+    const value = root.querySelector<HTMLElement>('[data-alt-value]')!;
+    let ticking = false;
+    const update = () => {
+      const doc = document.documentElement;
+      const p = Math.min(1, Math.max(0, scrollY / (doc.scrollHeight - innerHeight || 1)));
+      fill.style.height = `${p * 100}%`;
+      marker.style.bottom = `${p * 100}%`;
+      value.textContent = Math.round(min + p * (max - min)).toLocaleString('en');
+      root.classList.toggle('is-visible', scrollY > innerHeight * 0.6);
+      ticking = false;
+    };
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
+  }
+</script>
+
+<style>
+  .alt {
+    position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 40;
+    height: 46vh; width: 140px; pointer-events: none;
+    opacity: 0; transition: opacity .5s;
+    font: 500 0.66rem var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft);
+  }
+  .alt.is-visible { opacity: 1; }
+  .alt__rail { position: absolute; right: 0; top: 0; bottom: 0; width: 2px; background: var(--line); }
+  .alt__fill { position: absolute; left: 0; bottom: 0; width: 2px; background: var(--saffron-deep); }
+  .alt__wp { position: absolute; right: 12px; transform: translateY(50%); white-space: nowrap; opacity: .55; }
+  .alt__wp::after { content: ''; position: absolute; right: -15px; top: 50%; width: 8px; height: 1px; background: currentColor; }
+  .alt__wp b { font-weight: 700; }
+  .alt__marker {
+    position: absolute; right: -5px; transform: translateY(50%);
+    display: flex; align-items: center; gap: 4px;
+    white-space: nowrap; font-weight: 700; color: var(--ink); background: var(--white);
+    padding: 4px 10px; border-radius: 999px; box-shadow: 0 4px 14px rgba(0,0,0,.12);
+    text-transform: none;
+  }
+  .alt__marker::before { content: '▲'; color: var(--saffron-deep); font-size: .7rem; margin-right: 2px; }
+  @media (max-width: 1559px) { .alt { display: none; } }
+</style>

@@ -1,0 +1,31 @@
+---
+import WhatsAppIcon from './WhatsAppIcon.astro';
+import { whatsappLink } from '../data/site.js';
+---
+<a class="wa-float" href={whatsappLink()} target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+  <WhatsAppIcon size={26} />
+  <span class="wa-float__label">Chat with Tashi’s team</span>
+</a>
+
+<style>
+  .wa-float {
+    position: fixed; right: 20px; bottom: 20px; z-index: 60;
+    display: flex; align-items: center; gap: 0;
+    height: 58px; padding: 0 16px; border-radius: 999px;
+    background: #25d366; color: #0b3d1e; text-decoration: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,.22);
+    transition: gap .3s, padding .3s, transform .3s;
+  }
+  .wa-float__label {
+    max-width: 0; overflow: hidden; white-space: nowrap;
+    font: 600 0.9rem var(--sans); transition: max-width .35s ease;
+  }
+  .wa-float:hover, .wa-float:focus-visible { gap: 10px; padding-right: 22px; transform: translateY(-2px); }
+  .wa-float:hover .wa-float__label, .wa-float:focus-visible .wa-float__label { max-width: 220px; }
+  .wa-float::before {
+    content: ''; position: absolute; inset: 0; border-radius: inherit;
+    border: 2px solid #25d366; animation: wa-ping 2.8s ease-out infinite; pointer-events: none;
+  }
+  @keyframes wa-ping { 0% { opacity: .7; transform: scale(1); } 70%, 100% { opacity: 0; transform: scale(1.35); } }
+  @media (prefers-reduced-motion: reduce) { .wa-float::before { animation: none; } }
+</style>

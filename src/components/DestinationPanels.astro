@@ -1,0 +1,43 @@
+---
+// Expanding image panels: hovering or focusing one panel widens it and reveals its text.
+// On small screens they stack as tall cards.
+import { destinations } from '../data/destinations.js';
+---
+<div class="panels">
+  {destinations.map((d, i) => (
+    <a class="panel" href={`/destinations/${d.slug}/`}>
+      <img src={d.image} alt="" loading="lazy" />
+      <span class="panel__num">0{i + 1}</span>
+      <div class="panel__body">
+        <h3>{d.name}</h3>
+        <p>{d.tagline}</p>
+        <span class="panel__go">Explore {d.name} →</span>
+      </div>
+    </a>
+  ))}
+</div>
+
+<style>
+  .panels { display: grid; gap: 12px; }
+  .panel { position: relative; display: block; overflow: hidden; border-radius: var(--radius); color: var(--white); text-decoration: none; background: var(--ink); min-height: 420px; }
+  .panel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1s cubic-bezier(.2,.7,.2,1), filter .6s; }
+  .panel::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,22,27,.35) 0%, transparent 30%, rgba(15,22,27,.88) 100%); }
+  .panel__num { position: absolute; top: 20px; left: 22px; z-index: 1; font: 600 .78rem var(--sans); letter-spacing: .2em; color: var(--saffron); }
+  .panel__body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 26px; }
+  .panel h3 { font-size: clamp(1.7rem, 2.6vw, 2.4rem); margin-bottom: 10px; }
+  .panel p { font-size: .95rem; line-height: 1.5; color: rgba(255,255,255,.85); max-width: 34ch; }
+  .panel__go { display: inline-block; margin-top: 14px; font: 600 .75rem var(--sans); letter-spacing: .14em; text-transform: uppercase; border-bottom: 1px solid var(--saffron); padding-bottom: 4px; }
+
+  @media (min-width: 900px) {
+    .panels { display: flex; height: min(76vh, 680px); }
+    .panel { flex: 1; min-height: 0; transition: flex .7s cubic-bezier(.2,.7,.2,1); }
+    .panel:hover, .panel:focus-visible { flex: 2.6; }
+    .panels:hover .panel:not(:hover) img { filter: grayscale(.6) brightness(.8); }
+    .panel:hover img { transform: scale(1.05); }
+    .panel p, .panel__go { opacity: 0; transform: translateY(12px); transition: opacity .4s, transform .5s; }
+    .panel:hover p, .panel:hover .panel__go, .panel:focus-visible p, .panel:focus-visible .panel__go { opacity: 1; transform: none; transition-delay: .2s; }
+    .panel h3 { font-size: clamp(1.5rem, 2vw, 2.1rem); min-width: 8ch; }
+    .panel__body { padding: 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .panel, .panel img, .panel p, .panel__go { transition: none; } }
+</style>

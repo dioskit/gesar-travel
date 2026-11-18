@@ -30,6 +30,7 @@ npm run build      # outputs the finished site to dist/
 - **Group tours:** add the actual tours (itinerary, dates, difficulty, price).
 - **Blog:** copy the full articles from the old site into the four posts (marked "To do").
 - **Legal pages:** imprint, terms and privacy policy text (`src/pages/legal-notice.astro`, `terms.astro`, `privacy.astro`).
-- **Contact:** phone/WhatsApp and address in `src/data/site.js`.
-- **Inquiry form:** currently opens the visitor's email app with the answers filled in. To receive submissions directly, connect a form service (e.g. Netlify Forms or Formspree).
+- **WhatsApp number:** set `whatsapp` in `src/data/site.js` (digits only, with country code, e.g. `919876543210`). Until then every WhatsApp button opens WhatsApp without a recipient.
+- **Contact:** phone and office address in `src/data/site.js`.
+- **Trip builder:** sends via WhatsApp or the visitor's email app with the answers filled in. To receive submissions directly, connect a form service (e.g. Netlify Forms or Formspree).
 - **German version:** the old site had one. Not built yet.

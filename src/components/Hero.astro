@@ -26,6 +26,8 @@ const { image, title, eyebrow, size = 'page', position = 'center' } = Astro.prop
   .hero__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,22,27,.45) 0%, rgba(15,22,27,.05) 35%, rgba(15,22,27,.7) 100%); }
   .hero__content { position: relative; padding-top: 120px; padding-bottom: clamp(48px, 8vw, 96px); }
   .hero .eyebrow { color: var(--saffron); }
+  .hero :global(.accent) { color: var(--saffron); }
+  .hero__shade { background: linear-gradient(90deg, rgba(15,22,27,.5) 0%, rgba(15,22,27,0) 60%), linear-gradient(180deg, rgba(15,22,27,.45) 0%, rgba(15,22,27,.05) 35%, rgba(15,22,27,.7) 100%); }
   .hero h1 { max-width: 14ch; margin-bottom: 0.35em; }
   .hero :global(p) { max-width: 560px; font-size: clamp(1.05rem, 1.5vw, 1.25rem); color: rgba(255,255,255,.9); }
   .hero :global(.btn) { margin-top: 12px; }

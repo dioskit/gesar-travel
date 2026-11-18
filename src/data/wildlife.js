@@ -1,5 +1,6 @@
 // Wildlife collection: picture + where + when, inspired by muchbetteradventures.com.
 // image: null shows a placeholder until a photo is supplied.
+// months: on = good months, best = peak months (1 = January) – drawn as a 12-month strip.
 export const wildlife = [
   {
     name: 'Snow leopard',
@@ -7,6 +8,7 @@ export const wildlife = [
     regions: ['Ladakh'],
     where: 'Hemis National Park, Rumbak & Ulley valleys',
     when: 'January – March',
+    months: { on: [12], best: [1, 2, 3] },
     note: 'The "grey ghost" comes down to lower valleys in winter, following the blue sheep and ibex.',
     image: null,
   },
@@ -16,6 +18,7 @@ export const wildlife = [
     regions: ['Ladakh'],
     where: 'Changthang plateau – Tso Kar, Tso Moriri, Hanle',
     when: 'June – September',
+    months: { on: [5, 10], best: [6, 7, 8, 9] },
     note: 'Herds gallop across the high grasslands at 4,500 m – an unforgettable sight from the road or on trek.',
     image: '/images/temp/wildlife-kiang.jpg',
   },
@@ -25,6 +28,7 @@ export const wildlife = [
     regions: ['Ladakh', 'Bhutan'],
     where: 'Hanle & Tso Kar wetlands (summer) · Phobjikha Valley, Bhutan (winter)',
     when: 'May – September in Ladakh · November – February in Bhutan',
+    months: { on: [1, 2, 5, 6, 7, 8, 9, 11, 12], best: [] },
     note: 'The only alpine crane in the world, revered in Ladakhi and Bhutanese culture.',
     image: null,
   },
@@ -34,6 +38,7 @@ export const wildlife = [
     regions: ['Ladakh'],
     where: 'Hemis National Park, Markha Valley',
     when: 'All year',
+    months: { on: [4, 5, 6, 7, 8, 9, 10], best: [11, 12, 1, 2, 3] },
     note: 'Often seen on rocky slopes above the trekking trails – and the snow leopard’s favourite prey.',
     image: null,
   },
@@ -43,6 +48,7 @@ export const wildlife = [
     regions: ['Ladakh'],
     where: 'Hemis National Park, Zanskar, Nubra',
     when: 'Best November – March',
+    months: { on: [4, 5, 6, 7, 8, 9, 10], best: [11, 12, 1, 2, 3] },
     note: 'Impressive curved horns and a talent for impossibly steep cliffs.',
     image: null,
   },
@@ -52,6 +58,7 @@ export const wildlife = [
     regions: ['Ladakh'],
     where: 'Changthang, around Tso Moriri and Tso Kar',
     when: 'May – September',
+    months: { on: [5, 9], best: [6, 7, 8] },
     note: 'Curious and easy to spot – a favourite with photographers of all ages.',
     image: null,
   },
@@ -61,6 +68,7 @@ export const wildlife = [
     regions: ['Sikkim & Darjeeling'],
     where: 'Singalila National Park, Darjeeling',
     when: 'March – May, October – December',
+    months: { on: [3, 4, 5, 10, 11, 12], best: [] },
     note: 'Shy and rarely seen – patience and a good local guide are essential.',
     image: null,
   },
@@ -70,6 +78,7 @@ export const wildlife = [
     regions: ['Bhutan'],
     where: 'Jigme Dorji National Park · Motithang Takin Preserve, Thimphu',
     when: 'All year (preserve) · summer in the high pastures',
+    months: { on: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], best: [] },
     note: 'Bhutan’s national animal, the subject of a famous legend about Drukpa Kunley.',
     image: null,
   },
